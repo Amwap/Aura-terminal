@@ -4,7 +4,7 @@ from os import getcwd
 class JC():
     def __init__(self):
         MAIN_DIR = getcwd()
-        MAIN_DIR = "C:\MY DATA\DEVELOPING\Aura Project\Aura Terminal\IN PROGRESS\Aura Terminal"
+        MAIN_DIR = "C:\MY DATA\DEVELOPING\Aura Project\Aura Terminal\IN PROGRESS\Aura-Terminal"
         self.path = {
                     "":"", # есть, значит так надо.
                     "CASPER": f"{MAIN_DIR}\data\casper.json",

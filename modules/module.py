@@ -27,24 +27,7 @@ class Module():
 
     def request(self, message):
         self.command_list_id = 0
-
-        if message.command == "hear":
-            pass  # TODO
-
-        elif message.command == "speech":
-            pass  # TODO
-
-        elif message.command == "overvew":
-            pass  # TODO switch to main
-
-        elif message.command == "manual":
-            pass  # TODO
-            
-        elif message.command == "commands":
-            pass  # TODO
-
-        else:
-            self.module_request(message)
+        self.module_request(message)
 
 
 
