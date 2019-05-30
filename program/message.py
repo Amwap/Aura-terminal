@@ -13,17 +13,17 @@ class Message():
     def _autoset(self, string, string_list):
         if "http" in string:
             if len(string_list) == 3:
-                self.command = string_list[0]
+                self.command = string_list[0].lower()
                 self.name = string_list[1].replace(" ", "_")
                 self.link = string_list[2]
 
             if len(string_list) == 2:
-                self.command = string_list[0]
+                self.command = string_list[0].lower()
                 self.name = string_list[1].split("/")[-1].replace(" ", "_")
                 self.link = string_list[1]
 
         elif "C:\\" in string or "E:\\" in string:
-            self.command = string_list[0]
+            self.command = string_list[0].lower()
             if string_list[1].startswith("C:") or string_list[1].startswith("E:"):
                 self.link = "".join(self.string[1:])
                 self.name = self.link.split("\\")[-1].replace(" ", "_")
@@ -35,7 +35,7 @@ class Message():
 
         
         else: 
-            self.command = string_list[0]
+            self.command = string_list[0].lower()
             self.args = string_list
 
 

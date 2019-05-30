@@ -5,14 +5,14 @@ from os import path, remove
 from random import randint
 from re import compile
 from time import sleep
+from threading import Thread
 
 import speech_recognition as sr
 from gtts import gTTS
 from pygame import mixer
 
-from extensions.JsonClient import JC
-
-j = JC()
+# from extensions.JsonClient import JC
+# j = JC()
 
 
 def sound_output(answer):
@@ -49,19 +49,22 @@ def sound_output(answer):
 
 
 
-def sound_input(): # Внимание! в питоне 3.7 не работает.
+def sound_input(lang): 
+    if lang == "en": lang = "en-EN"
+    if lang == "ru": lang = "ru-RU"
+
     r = sr.Recognizer()
     
     with sr.Microphone() as source:                    
-        print("Aura listen to you")
+        print("say command")
         audio = r.listen(source)
-
     try:
-        message = r.recognize_google(audio, language="ru-RU")
-        message.lower()
+        message = r.recognize_google(audio, language=lang)
         print(message)
-            
-    except:
-        print("exception")
+        return message
+        
+    except: 
+        return ""
 
-    return message
+    
+

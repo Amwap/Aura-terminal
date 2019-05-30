@@ -75,7 +75,7 @@ class Selektor(Module):
             elif message.command == 'del': self._tg_del(message.args[1:])
             elif message.command == 'tags': self._set_tags()
             elif message.command == 'new': self._set_new()
-            elif message.command == 'r': self._open_random()
+            elif message.command == 'random': self._open_random()
             
             else:
                 self._set_active_file(message.string)

@@ -1,16 +1,35 @@
 # coding: utf-8
 
 from pyperclip import paste
-
+import datetime 
+from threading import Thread
 from program.distributor import Distributor
+from extensions.Sound import sound_input
 
 class Insert(Distributor):
     def __init__(self):
         Distributor.__init__(self)
         self.user_says = ''
+        self.user_hint = ''
         self._shift = False
         self._language = "en"
+        self._voice = True
         self._module_init = False
+
+        self.last_signal = datetime.datetime.now()
+
+
+
+    def __recognition(self):
+        while self._voice:
+            td = datetime.datetime.now() - self.last_signal
+            print(td.seconds)
+            if td.seconds > 5:
+                self._voice = False
+            
+            self.user_says = sound_input(lang=self._language)
+            self._enter(self.user_says)
+        return
 
 
 
@@ -47,6 +66,17 @@ class Insert(Distributor):
 
 
     def _enter(self, string):
+        if string.lower().startswith("voice on"):
+            self._voice = True
+            Thread(target=self.__recognition).start()
+            self.user_says = ""
+            return
+            
+        elif string.lower().startswith("voice off"):
+            self._voice = False
+            self.user_says = ""
+            return
+
         self.order(string)
         self.user_says = ""
         

@@ -3,4 +3,4 @@
 from application.application import Application
 
 app = Application()
-app.run()
+app.run() 

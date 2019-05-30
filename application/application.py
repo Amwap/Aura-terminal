@@ -1,10 +1,9 @@
 # coding utf-8
 
-from  time import clock, ctime
+from datetime import timedelta, datetime
+from time import clock, ctime
+
 import kivy
-
-from datetime import timedelta
-
 # kivy.require('1.10.1')
 from kivy.app import App
 from kivy.clock import Clock
@@ -14,12 +13,13 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 
-from program.program import Program
 from extensions.JsonClient import JC
 j = JC()
 
-
+from program.program import Program
 program = Program()
+
+
 
 class MyPaintWidget(Widget):
     def on_touch_down(self, touch):
@@ -53,12 +53,15 @@ class Application(App):
     Config.set("graphics", "width", 600)
     Config.set("graphics", "height", 360)
 
+
+
     def build(self):
         self.text = "123"
 
         pack = FloatLayout()
         interface = Image(source="Images\Interface.png")
         pack.add_widget(interface)
+
 
         self.time = Label(
             text=f'date \ntime ', 
@@ -177,15 +180,20 @@ class Application(App):
         pack.add_widget(MyPaintWidget())
         pack.add_widget(MyKeyboardListener())
 
-        Clock.schedule_interval(self.timer_loop, 0.1)
-        Clock.schedule_interval(self.data_set, 0.1)
-        Clock.schedule_interval(self.stub_set, 0.3)
+        Clock.schedule_interval(self._timer_loop, 0.1)
+        Clock.schedule_interval(self._data_set, 0.1)
+        Clock.schedule_interval(self._stub_set, 0.3)
+        Clock.schedule_interval(self._voice_ping, 1)
         self.stub = " "
         return pack
 
 
 
-    def timer_loop(self, dt):
+    def _voice_ping(self, dt):
+        program.last_signal = datetime.now()
+
+    
+    def _timer_loop(self, dt):
         now_time = ctime()
         session_time = str(timedelta(seconds=clock()))[:-7]
 
@@ -194,7 +202,7 @@ class Application(App):
 
 
 
-    def stub_set(self, dt):
+    def _stub_set(self, dt):
         if self.stub != "_":
             self.stub = "_"
         elif self.stub != " ":
@@ -212,7 +220,7 @@ class Application(App):
 
 
 
-    def data_set(self, dt):
+    def _data_set(self, dt):
         self.module.text = program.get_module_name()
         self.inbox.text = program.get_box_name()
         self.box.text = program.get_box_content()   
@@ -224,7 +232,11 @@ class Application(App):
 
         if program.active_module.commands_list.get(program.user_says) != None:
             self.hint_place.text = program.active_module.commands_list.get(program.user_says)
-        else: self.hint_place.text = ""
+        else: self.hint_place.text = program.user_hint
 
         self.user_place.text = text + self.stub 
+        self.language.text = program._language
         
+
+
+
