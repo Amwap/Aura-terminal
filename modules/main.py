@@ -1,18 +1,37 @@
 # coding: utf-8
 
 from modules.module import Module
+from os import startfile
+from extensions.Overvew import get_overview
+from extensions.JsonClient import JC
+j = JC()
 
 
 
 class Main(Module):
     def __init__(self):
         Module.__init__(self)
+        self.module_base = None
         self.module_name = "Module: Main"
         self.box_name    = "In box: Commands"
         self.box_content = "Not found"
         self.aura_says   = "Welcome to Aura Terminal!"
         self.user_hint   = ""
-        self.commands_list = {}
+        self.commands_list = {
+            "aura":"aura - conversation module", # other module
+            "path":"path - shortcut access module", # other module
+            "note":"note - module for notes", # other module
+            "slk":"slk - file manager", # other module
+            "tool":"tool - module useful scripts", # other module
+            "game":"game - pseudographic games", # other module
+            "view":"view - program statistics",
+            "manual":"manual - open full manual about program",
+            "open":"open <name item in aura scope>",
+            "play":"play <selekt name>",
+            "theme":"theme - switch theme",
+            "voice on":"voice on - connect voice input", # other module
+            "voice off":"voice off - turn off voice input", # other module
+            }
 
         self._true_box = [
             "aura",
@@ -21,9 +40,12 @@ class Main(Module):
             "slk",
             "tool",
             "game",
-            "overview",
+            "open",
+            "play",
+            "voice on",
+            "voice off",
+            "view",
             "manual",
-            "commands",
             "theme",
         ]
 
@@ -38,22 +60,66 @@ class Main(Module):
 
 Commands:
 6 open
+7 play
+8 voice on
+9 voice off
 
 Information:
-7  Overview
-8  Manual
-9  Commands
+10  View
+11  Manual
 
 Configuration:
-10  Theme
+12  Theme
 
 """
 
+    def back(self):
+        return "reload"
         
-        
+
     def module_request(self, message):
-        if message.command == "manual": pass
+        if message.command == "manual": 
+            startfile(j.path["MANUAL"])
+            self.aura_says = "Manual is open for reading"
+            
         elif message.command == "theme": pass
-        elif message.command == "overview": pass
-        elif message.command == "commands": pass
-        elif message.command == " ": pass
+        elif message.command == "view":
+            self.set_box(massive=get_overview(), nonnumerate=True)
+
+        elif message.command == "open": pass
+
+        else:
+            self.aura_says, _ = self.module_base["aura"]._search_answer(message.string)
+
+
+    def set_box_string(self, massive=None, nonnumerate=True):
+        
+        if massive == None:
+            massive = self._true_box
+
+        self.box_content = ""
+
+        def add_line(i):
+            num = ""
+            cont = str(num + f"{self._num_box[i%len(massive)]}")
+            if len(cont)>= self._box_width:
+                cont = num + f"{self._num_box[i%len(massive)]}"[:self._box_width]
+            self.box_content += cont + "\n"
+
+
+        if len(massive) == 0:
+            self.box_content = "Not found."
+
+        elif type(massive) == list:
+            for i in range(self._box_id - self._box_lines, self._box_id):
+                try:
+                    self._num_box[i]
+                    add_line(i)
+                except KeyError:
+                    if len(self._true_box) > 19:
+                        add_line(i)
+                    else:
+                        pass
+
+        elif type(massive) == str:
+            pass  # TODO text box

@@ -16,6 +16,7 @@ class JC():
                     "NOTEBOOK": f"{MAIN_DIR}\data\\notebook",
                     "DATA": f"{MAIN_DIR}\data",
                     "FONT": f"{MAIN_DIR}\\application",
+                    "MANUAL": f"{MAIN_DIR}\data\\manual.txt",
                     }
 
 

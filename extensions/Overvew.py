@@ -1,9 +1,11 @@
 # coding: utf-8
 
+from os import listdir
+
 from extensions.JsonClient import JC
+
 j = JC()
 
-from os import listdir
 
 def overview_save(place, integer):
     stats = j.j_move(name="STATS")
@@ -11,20 +13,52 @@ def overview_save(place, integer):
     j.j_move(name="STATS", var=stats)
 
 
-def overview_show():
-    stats = j.j_move(name="STATS")
-    statistics = ["Enter in modul",
-                  "• Main:      " + str(stats["main"]),
-                  "• Aura:      " + str(stats["aura"]),
-                  "• Notebook:  " + str(stats["note"]),
-                  "• Selector:  " + str(stats["selector"]),
-                  "• Conductor: " + str(stats["path"]),
-                  " ",
-                  "Data size:",
-                  "• Aura:      " + str(len(j.j_move(name="CASPER"))),
-                  "• Notebook:  " + str(len(listdir(j.path["NOTEBOOK"]))),
-                  #f"• Selector:  " + str(len(j.j_load(SELECTS))),
-                  "• Conductor: " + str(len(j.j_move(name="CONDUCTOR"))),
-                ]
+casper = j.j_move(name="CASPER")
+selektor = j.j_move(name="SELEKTOR")
+tags = j.j_move(name="TAGS")
 
+questions = len(casper)
+answers = 0
+for x in casper:
+    for i in casper[x]:
+        answers += 1
+
+casper = None
+
+
+files = 0
+
+for x in tags:
+    files += len(tags[x])
+
+
+def get_overview():
+    stats = j.j_move(name="STATS")
+    statistics = [
+        "General",
+        "• Starts program:  " + str(stats["launches"]),
+        "• Time work:       " + str(stats["time work"]),
+        "• Requests:        " + str(stats["requests"]),
+        "",
+        "Module Aura",
+        "• Connects:        " + str(stats["aura"]),
+        "• Questions:       " + str(questions),
+        "• Answers:         " + str(answers),
+        "• Messages:        " + str(stats["messages"]),
+        "",
+        "Module Path",
+        "• Connects:        " + str(stats["path"]),
+        "• Shortcuts:       " + str(len(j.j_move(name="CONDUCTOR"))),
+        "",
+        "Module Note",
+        "• Connects:        " + str(stats["note"]),
+        "• Notes:           " + str(len(listdir(j.path["NOTEBOOK"]))),
+        "",
+        "Module Slk",
+        "• Connects:        " + str(stats["slk"]),
+        "• Selekts:         " + str(len(selektor)),
+        "• Files:           " + str(files),
+        ""]
+        
+    statistics.reverse()
     return(statistics)

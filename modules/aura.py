@@ -3,7 +3,6 @@
 import random
 import re
 import threading
-
 from difflib import SequenceMatcher
 from os import path, remove
 from random import choice, randint
@@ -12,10 +11,11 @@ from re import compile
 import gtts
 from pygame import mixer
 
-
-from modules.module import Module
-from extensions.Sound import sound_output
 from extensions.JsonClient import JC
+from extensions.Overvew import overview_save
+from extensions.Sound import sound_output
+from modules.module import Module
+
 j = JC()
 
 
@@ -123,7 +123,10 @@ class Aura(Module):
 
 
 
-    def _search_answer(self, string, massive):
+    def _search_answer(self, string, massive=None):
+        overview_save("messages", 1)
+        if massive == None:
+            massive = self._casper
 
         def selection( string, massive ):
             max_coincidence = 0
@@ -199,8 +202,3 @@ class Aura(Module):
 
         self._num_box = dict(enumerate(self._true_box))
         self.set_box_string(self._true_box, nonnumerate)
-
-   
-
-
-

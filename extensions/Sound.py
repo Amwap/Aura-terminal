@@ -56,11 +56,9 @@ def sound_input(lang):
     r = sr.Recognizer()
     
     with sr.Microphone() as source:                    
-        print("say command")
         audio = r.listen(source)
     try:
         message = r.recognize_google(audio, language=lang)
-        print(message)
         return message
         
     except: 

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from extensions.Overvew import overview_show
+
 from extensions.JsonClient import JC
 j = JC()
 
@@ -18,7 +18,7 @@ class Module():
         self._standart_box_id = 21 # minus itself
         self._box_id = self._standart_box_id  
         self._box_lines = self._standart_box_id 
-        self._box_width = 20
+        self._box_width = 23
         self.input_list_id = 0
         self.command_list_id = 0
         self.insert_list = [""]
@@ -41,14 +41,14 @@ class Module():
 
 
 
-    def set_box(self, massive=None):
+    def set_box(self, massive=None, nonnumerate=False):
         if massive!=None:
             m = massive.copy()
             m.reverse()
             self._true_box = m
         
         self._num_box = dict(enumerate(self._true_box))
-        self.set_box_string(self._true_box)
+        self.set_box_string(self._true_box, nonnumerate)
 
 
 
@@ -60,7 +60,7 @@ class Module():
         self.box_content = ""
 
         def add_line(i):
-            if nonnumerate: num = ""
+            if nonnumerate == True: num = ""
             else: num = f"{i%len(massive)} "
             cont = str(num + f"{self._num_box[i%len(massive)]}")
             if len(cont)>= self._box_width:

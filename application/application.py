@@ -105,9 +105,9 @@ class Application(App):
 
         self.module = Label(
             text=f'Module: Main',
-            pos=(182, 155),
-            font_size="15",
-            font_name = j.path["FONT"]+"\\10651.otf",
+            pos=(182, 153),
+            font_size="12",
+            font_name = j.path["FONT"]+"\\consolai.ttf",
             text_size=(190, 15),
             valign="top",
         )
@@ -115,9 +115,9 @@ class Application(App):
 
         self.inbox = Label(
             text=f'In box: Commands',
-            pos=(182, 132),
-            font_size="15",
-            font_name = j.path["FONT"]+"\\10651.otf",
+            pos=(182, 130),
+            font_size="12",
+            font_name = j.path["FONT"]+"\\consolai.ttf",
             text_size=(190, 15),
             valign="top",
         )
@@ -126,8 +126,8 @@ class Application(App):
         self.box = Label(
             text=f'• 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 '*30,
             pos=(182, -25),
-            font_size="15",
-            font_name=j.path["FONT"]+"\\10651.otf",
+            font_size="12",
+            font_name=j.path["FONT"]+"\\consolai.ttf",
             #wraplength=False,
             text_size=(190, 280),
             valign="top",
@@ -137,8 +137,8 @@ class Application(App):
         self.aura_place = Label(
             text=f'Welcome to Aura Terminal',
             pos=(-170, 21),
-            font_size="15",
-            font_name=j.path["FONT"]+"\\10651.otf",
+            font_size="12",
+            font_name=j.path["FONT"]+"\\consolai.ttf",
             text_size=(230, 220),
             valign="top",
         )

@@ -5,6 +5,7 @@ import datetime
 from threading import Thread
 from program.distributor import Distributor
 from extensions.Sound import sound_input
+from extensions.Overvew import overview_save
 
 class Insert(Distributor):
     def __init__(self):
@@ -27,8 +28,8 @@ class Insert(Distributor):
             if td.seconds > 5:
                 self._voice = False
             
-            self.user_says = sound_input(lang=self._language)
-            self._enter(self.user_says)
+            self.user_hint = sound_input(lang=self._language)
+            self._enter(self.user_hint)
         return
 
 
@@ -66,6 +67,7 @@ class Insert(Distributor):
 
 
     def _enter(self, string):
+        overview_save("requests", 1)
         if string.lower().startswith("voice on"):
             self._voice = True
             Thread(target=self.__recognition).start()
