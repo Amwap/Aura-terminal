@@ -57,15 +57,17 @@ class Application(App):
 
     def build(self):
         self.text = "123"
-
+        self.theme_list = program.module_base["main"].theme_list
         pack = FloatLayout()
-        interface = Image(source="Images\Interface.png")
-        pack.add_widget(interface)
+        self.interface = Image(source=program.module_base["main"].theme_active)
+        pack.add_widget(self.interface)
+        self._font_color = self.theme_list[self.theme_list["theme"]]
 
 
         self.time = Label(
             text=f'date \ntime ', 
             pos=(41, -136),
+            color=self._font_color,
             font_size="15",
             font_name=j.path["FONT"]+"\\10651.otf",
             text_size=(100, 15),
@@ -76,6 +78,7 @@ class Application(App):
         self.date = Label(
             text=f'date \ntime ', 
             pos=(-150, -136),
+            color=self._font_color,
             font_size="15",
             font_name=j.path["FONT"]+"\\10651.otf",
             text_size=(150, 15),
@@ -86,6 +89,7 @@ class Application(App):
         self.language = Label(
             text=f'En', 
             pos=(-221, -137),
+            color=self._font_color,
             font_size="14",
             font_name=j.path["FONT"]+"\\10651.otf",
             text_size=(100, 15),
@@ -96,6 +100,7 @@ class Application(App):
         self.version = Label(
             text=f'version: Aura Terminal 000\nrelease: 00 00 2019 by Amwap',
             pos=(-150, 154),
+            color=self._font_color,
             font_size="15",
             font_name = j.path["FONT"]+"\\10651.otf",
             text_size=(200, 30),
@@ -106,6 +111,7 @@ class Application(App):
         self.module = Label(
             text=f'Module: Main',
             pos=(182, 153),
+            color=self._font_color,
             font_size="12",
             font_name = j.path["FONT"]+"\\consolai.ttf",
             text_size=(190, 15),
@@ -116,6 +122,7 @@ class Application(App):
         self.inbox = Label(
             text=f'In box: Commands',
             pos=(182, 130),
+            color=self._font_color,
             font_size="12",
             font_name = j.path["FONT"]+"\\consolai.ttf",
             text_size=(190, 15),
@@ -126,6 +133,7 @@ class Application(App):
         self.box = Label(
             text=f'• 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 '*30,
             pos=(182, -25),
+            color=self._font_color,
             font_size="12",
             font_name=j.path["FONT"]+"\\consolai.ttf",
             #wraplength=False,
@@ -137,6 +145,7 @@ class Application(App):
         self.aura_place = Label(
             text=f'Welcome to Aura Terminal',
             pos=(-170, 21),
+            color=self._font_color,
             font_size="12",
             font_name=j.path["FONT"]+"\\consolai.ttf",
             text_size=(230, 220),
@@ -147,6 +156,7 @@ class Application(App):
         self.hint_place = Label(
             text=program.user_says[-100:],
             pos=(-105, -156),
+
             font_size="13",
             font_name = j.path["FONT"]+"\\consolai.ttf",
             text_size=(334, 15),
@@ -158,6 +168,7 @@ class Application(App):
         self.user_place = Label(
             text=program.user_says[-100:],
             pos=(-105, -156),
+            color=self._font_color,
             font_size="13",
             font_name = j.path["FONT"]+"\\consolai.ttf",
             text_size=(334, 15),
@@ -168,6 +179,7 @@ class Application(App):
         self.invitation = Label(
             text=">>",
             pos=(-120, -156),
+            color=self._font_color,
             font_size="13",
             font_name = j.path["FONT"]+"\\consola.ttf",
             text_size=(335, 15),
@@ -191,6 +203,7 @@ class Application(App):
 
     def _voice_ping(self, dt):
         program.last_signal = datetime.now()
+        self.interface = Image(source=program.module_base["main"].theme_active)
 
     
     def _timer_loop(self, dt):

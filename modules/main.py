@@ -17,6 +17,12 @@ class Main(Module):
         self.box_content = "Not found"
         self.aura_says   = "Welcome to Aura Terminal!"
         self.user_hint   = ""
+
+        self.theme_list = j.j_move(name="CONFIG")
+        self.theme_active = "{0}\\{1}.png".format(j.path["IMAGES"], self.theme_list["theme"])
+        
+
+
         self.commands_list = {
             "aura":"aura - conversation module", # other module
             "path":"path - shortcut access module", # other module
@@ -24,30 +30,16 @@ class Main(Module):
             "slk":"slk - file manager", # other module
             "tool":"tool - module useful scripts", # other module
             "game":"game - pseudographic games", # other module
-            "view":"view - program statistics",
-            "manual":"manual - open full manual about program",
             "open":"open <name item in aura scope>",
             "play":"play <selekt name>",
-            "theme":"theme - switch theme",
             "voice on":"voice on - connect voice input", # other module
             "voice off":"voice off - turn off voice input", # other module
+            "view":"view - program statistics",
+            "manual":"manual - open full manual about program",
+            "theme":"theme - switch theme",
             }
 
-        self._true_box = [
-            "aura",
-            "path",
-            "note",
-            "slk",
-            "tool",
-            "game",
-            "open",
-            "play",
-            "voice on",
-            "voice off",
-            "view",
-            "manual",
-            "theme",
-        ]
+        self._true_box = self.commands_list.keys()
 
         self.set_box()
         self.box_content = """Modules:
@@ -82,7 +74,16 @@ Configuration:
             startfile(j.path["MANUAL"])
             self.aura_says = "Manual is open for reading"
             
-        elif message.command == "theme": pass
+        elif message.command == "theme":
+            if len(message.args) == 1:
+                self.set_box(massive=[x for x in self.theme_list.keys()],nonnumerate=False)
+
+            elif message.args[1] in self.theme_list:
+                self.theme_list["theme"] = message.args[1]
+                j.j_move(name="CONFIG", var=self.theme_list)
+                self.theme_active = "{0}\\{1}.png".format(j.path["IMAGES"], self.theme_list["theme"])
+
+
         elif message.command == "view":
             self.set_box(massive=get_overview(), nonnumerate=True)
 
