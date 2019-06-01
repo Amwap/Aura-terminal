@@ -97,7 +97,7 @@ class Aura(Module):
         self.insert_list.append("")
         self._box_id = self._standart_box_id
         
-        if message.command == "add": self._add(message.arguments)
+        if message.command == "add": self._add(message.string[4:])
         elif message.command == "del": self._del()
         elif message.command == "say": 
             self.aura_says = message.string[4:]
