@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from os import listdir
-
+from datetime import timedelta
 from extensions.JsonClient import JC
 
 j = JC()
@@ -37,7 +37,7 @@ def get_overview():
     statistics = [
         "General",
         "• Starts program:  " + str(stats["launches"]),
-        "• Time work:       " + str(stats["time work"]),
+        "• Time work:  " + str(timedelta(seconds=int(stats["time work"]))),
         "• Requests:        " + str(stats["requests"]),
         "",
         "Module Aura",

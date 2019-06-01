@@ -69,28 +69,39 @@ Configuration:
         return "reload"
         
 
+
     def module_request(self, message):
-        if message.command == "manual": 
-            startfile(j.path["MANUAL"])
-            self.aura_says = "Manual is open for reading"
-            
-        elif message.command == "theme":
-            if len(message.args) == 1:
-                self.set_box(massive=[x for x in self.theme_list.keys()],nonnumerate=False)
-
-            elif message.args[1] in self.theme_list:
-                self.theme_list["theme"] = message.args[1]
-                j.j_move(name="CONFIG", var=self.theme_list)
-                self.theme_active = "{0}\\{1}.png".format(j.path["IMAGES"], self.theme_list["theme"])
-
-
-        elif message.command == "view":
-            self.set_box(massive=get_overview(), nonnumerate=True)
-
+        if message.command == "manual": self._open_manual()
+        elif message.command == "theme": self._set_theme(message)
+        elif message.command == "view": self._load_view()
         elif message.command == "open": pass
+        else: self.aura_says, _ = self.module_base["aura"]._search_answer(message.string)
 
-        else:
-            self.aura_says, _ = self.module_base["aura"]._search_answer(message.string)
+
+
+    def _load_view(self):
+        self.set_box(massive=get_overview(), nonnumerate=True)
+        self.aura_says = "Statistis has been load in box."
+
+
+
+    def _set_theme(self, message):
+        if len(message.args) == 1:
+            self.set_box(massive=[x for x in self.theme_list.keys()],nonnumerate=False)
+            self.aura_says = "Theme list has been load in box"
+
+        elif message.args[1] in self.theme_list:
+            self.theme_list["theme"] = message.args[1]
+            j.j_move(name="CONFIG", var=self.theme_list)
+            self.theme_active = "{0}\\{1}.png".format(j.path["IMAGES"], self.theme_list["theme"])
+            self.aura_says = f"The {message.args[1]} theme was been set. Pleace restart the program."
+
+
+
+    def _open_manual(self):
+        startfile(j.path["MANUAL"])
+        self.aura_says = "Manual is open for reading"
+
 
 
     def set_box_string(self, massive=None, nonnumerate=True):

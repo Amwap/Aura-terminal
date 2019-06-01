@@ -1,6 +1,6 @@
 # coding utf-8
 
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from time import clock, ctime
 
 import kivy
@@ -14,9 +14,10 @@ from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 
 from extensions.JsonClient import JC
-j = JC()
-
+from extensions.Overvew import overview_save
 from program.program import Program
+
+j = JC()
 program = Program()
 
 
@@ -196,14 +197,20 @@ class Application(App):
         Clock.schedule_interval(self._data_set, 0.1)
         Clock.schedule_interval(self._stub_set, 0.3)
         Clock.schedule_interval(self._voice_ping, 1)
+        Clock.schedule_interval(self._time_work_save, 1)
         self.stub = " "
         return pack
 
 
 
+    def _time_work_save(self, dt):
+        overview_save("time work", dt)
+
+
+
     def _voice_ping(self, dt):
         program.last_signal = datetime.now()
-        self.interface = Image(source=program.module_base["main"].theme_active)
+
 
     
     def _timer_loop(self, dt):
@@ -212,6 +219,7 @@ class Application(App):
 
         self.time.text = f"{session_time}"
         self.date.text = f"{now_time}"
+
 
 
 
@@ -249,7 +257,3 @@ class Application(App):
 
         self.user_place.text = text + self.stub 
         self.language.text = program._language
-        
-
-
-
