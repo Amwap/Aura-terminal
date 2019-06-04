@@ -14,7 +14,7 @@ from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 
 from extensions.JsonClient import JC
-from extensions.Overvew import overview_save
+from extensions.Overvew import overview_save, time_save
 from program.program import Program
 
 j = JC()
@@ -204,7 +204,7 @@ class Application(App):
 
 
     def _time_work_save(self, dt):
-        overview_save("time work", dt)
+        time_save(dt)
 
 
 

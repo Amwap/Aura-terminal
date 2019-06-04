@@ -13,6 +13,14 @@ def overview_save(place, integer):
     j.j_move(name="STATS", var=stats)
 
 
+
+def time_save(time):
+    stats = j.j_move(name="TIMEWORK")
+    stats += time
+    j.j_move(name="TIMEWORK", var=stats)
+
+
+
 casper = j.j_move(name="CASPER")
 selektor = j.j_move(name="SELEKTOR")
 tags = j.j_move(name="TAGS")
@@ -34,11 +42,12 @@ for x in tags:
 
 def get_overview():
     stats = j.j_move(name="STATS")
+    time = j.j_move(name="TIMEWORK")
     statistics = [
         "General",
         "• Starts program:  " + str(stats["launches"]),
-        "• Time work:  " + str(timedelta(seconds=int(stats["time work"]))),
         "• Requests:        " + str(stats["requests"]),
+        "• Time work:  " + str(timedelta(seconds=int(time))),
         "",
         "Module Aura",
         "• Connects:        " + str(stats["aura"]),

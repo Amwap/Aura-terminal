@@ -23,8 +23,8 @@ class Distributor():
             "path": Conductor(),
             "note": Notebook(),
             "slk":  Selektor(),
-            "game": None, # TODO
-            "tool": None, # TODO
+            # "game": None, # TODO
+            # "tool": None, # TODO
             } 
 
         self.module_base["main"].module_base = self.module_base
@@ -34,14 +34,8 @@ class Distributor():
     def order(self, string):
         if string == "":
             return False
-        repl_list = []
-        for word in string.split():
-            try: repl = self.active_module._num_box[int(word)]
-            except: repl = word
-            repl_list.append(repl)
-
             
-        message = Message(" ".join(repl_list))
+        message = Message(string)
 
         if self._module_name == "main" and  message.command in self.module_base:
             self.active_module = self.module_base[message.command]

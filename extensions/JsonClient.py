@@ -18,6 +18,7 @@ class JC():
                     "FONT": f"{MAIN_DIR}\\application",
                     "MANUAL": f"{MAIN_DIR}\data\\manual.txt",
                     "CONFIG": f"{MAIN_DIR}\data\\config.json",
+                    "TIMEWORK": f"{MAIN_DIR}\data\\timework.json",
                     "IMAGES": f"{MAIN_DIR}\images"
                     }
 

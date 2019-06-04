@@ -6,6 +6,7 @@ j = JC()
 
 class Module():
     def __init__(self):
+        self.module_base = None
         self.module_name = "Module: Name"
         self.box_name = "In box: Name"
         self.box_content = "Not found"
@@ -38,6 +39,11 @@ class Module():
 
     def back(self):
         return "main"
+
+
+
+    def open_item(self, message):
+        return False
 
 
 

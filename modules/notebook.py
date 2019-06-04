@@ -35,6 +35,7 @@ class Notebook(Module):
 
 
     def _read(self, command):
+        print(command)
         if f"{command}.txt" in listdir(self.NOTEBOOK):
             startfile(f"{self.NOTEBOOK}\\{command}.txt")
             self.aura_says = f"Note \"{command}\" open for read and write."
@@ -59,5 +60,10 @@ class Notebook(Module):
             self.aura_says = f"Note \"{arguments}\" is not found."
 
 
+
+    def open_item(self, message):
+        if message.args[1]+".txt" in self._true_box:
+            self._read(message.args[1])
+            return True
 
     

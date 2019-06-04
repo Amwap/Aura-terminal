@@ -1,11 +1,14 @@
 # coding: utf-8
 
-from pyperclip import paste
-import datetime 
+from datetime import datetime
 from threading import Thread
-from program.distributor import Distributor
-from extensions.Sound import sound_input
+
+from pyperclip import paste
+
 from extensions.Overvew import overview_save
+from extensions.Sound import *
+from program.distributor import Distributor
+
 
 class Insert(Distributor):
     def __init__(self):
@@ -14,22 +17,22 @@ class Insert(Distributor):
         self.user_hint = ''
         self._shift = False
         self._language = "en"
-        self._voice = True
+        self._assistant = False
         self._module_init = False
 
-        self.last_signal = datetime.datetime.now()
+        self.last_signal = datetime.now()
 
 
 
     def __recognition(self):
-        while self._voice:
-            td = datetime.datetime.now() - self.last_signal
-            print(td.seconds)
+        while self._assistant:
+            td = datetime.now() - self.last_signal
             if td.seconds > 5:
-                self._voice = False
+                self._assistant = True
             
             self.user_hint = sound_input(lang=self._language)
-            self._enter(self.user_hint)
+            if self.user_hint != "": self._enter(self.user_hint)
+            print(self.user_hint)
         return
 
 
@@ -68,16 +71,28 @@ class Insert(Distributor):
 
     def _enter(self, string):
         overview_save("requests", 1)
-        if string.lower().startswith("voice on"):
-            self._voice = True
+
+        repl_list = []
+        for word in string.split():
+            try: repl = self.active_module._num_box[int(word)]
+            except: repl = word
+            repl_list.append(repl)
+        string = " ".join(repl_list)
+
+        if string.lower().startswith("assistant") and self._assistant == False:
+            self._assistant = True
             Thread(target=self.__recognition).start()
             self.user_says = ""
+            self.active_module.aura_says = "Voice assistant Aura activated"
             return
-            
-        elif string.lower().startswith("voice off"):
-            self._voice = False
+
+        elif string.lower().startswith("assistant") and self._assistant == True:
+            self._assistant = False
             self.user_says = ""
+            self.active_module.aura_says = "Voice assistant Aura deactivated"
             return
+
+            
 
         self.order(string)
         self.user_says = ""
@@ -86,6 +101,9 @@ class Insert(Distributor):
 
         if self.active_module.module_name == "Module: Aura":
             self.active_module.set_box()
+
+        if self._assistant == True:
+            sound_output(self.active_module.aura_says)
 
 
 
@@ -133,12 +151,10 @@ class Insert(Distributor):
             move = self.active_module.back()
             if move == 'reload' :
                 self.active_module.__init__()
+                self.active_module.module_base = self.module_base
 
             elif move == 'main':
                 self.active_module = self.module_base["main"]
-
-                
-                
 
         else:    
             if self._shift == True:
@@ -160,7 +176,3 @@ class Insert(Distributor):
 
             self.active_module.insert_list[-1] = self.user_says
             self.active_module.input_list_id = len(self.active_module.insert_list)
-
-
-
-

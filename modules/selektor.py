@@ -17,20 +17,24 @@ class Selektor(Module):
         self.box_content = 'Not found'
         self.aura_says   = 'Selektor connected, commands available.'
 
-        self.commands_list_bot = {'add':'add [name] <path/to/dir>',
-                                  'del':'del <name> or <number>',
-                                  'ignore':'ignore - show ignore list'}
+        self.commands_list_bot = {
+            'add':'add [name] <path/to/dir>',
+            'del':'del <name> or <number>',
+            'dir':'dir <name selekt> - to open dirrectory',
+            'ignore':'ignore - show ignore list'}
 
-        self.commands_list_middle = {"tg":"tg <search tag 1 > <search tag 2> ...",
-                                     "nm":"nm <part of the name>",
-                                     "add":"add <tag 1> <tag 2> ...",
-                                     "del":"del <tag 1> <tag 2> ...",
-                                     "tags":"tags - show tags for this selekt",
-                                     "new":"new - show raw files",
-                                     "r":"r - open random file", }
+        self.commands_list_middle = {
+            "tg":"tg <search tag 1 > <search tag 2> ...",
+            "nm":"nm <part of the name>",
+            "add":"add <tag 1> <tag 2> ...",
+            "del":"del <tag 1> <tag 2> ...",
+            "tags":"tags - show tags for this selekt",
+            "new":"new - show raw files",
+            "r":"r - open random file", }
 
-        self.commands_list_ignore = {"add":"add <ignor word>",
-                                     "del":"del <ignore word> or <number>"}
+        self.commands_list_ignore = {
+            "add":"add <ignor word>",
+            "del":"del <ignore word> or <number>"}
 
         self.commands_list = self.commands_list_bot
         
@@ -58,6 +62,7 @@ class Selektor(Module):
         if self._scene == 'bot':
             if   message.command == 'add': self._add(message)
             elif message.command == 'del': self._del(message.args)
+            elif message.command == 'dir': self._dir(message.args)
             elif message.command == 'ignore': 
                 self.commands_list = self.commands_list_ignore
                 self._ignore()
@@ -330,3 +335,20 @@ class Selektor(Module):
             self.set_box(list(self._selektor))
         except KeyError:
             self.aura_says = "Selekt not found."
+    
+    
+    
+    def _dir(self, args):
+        print(self._selektor[args])
+        if args in self._true_box:
+            startfile(self._selektor[args]) 
+            self.aura_says = f"Directory {args} has been open"
+
+        else:
+            self.aura_says = f"Directory {args} not found."
+
+
+    def open_item(self, message):
+        if message.args[1] in self._true_box:
+            self._dir(message.args[1])
+            return True

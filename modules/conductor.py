@@ -36,6 +36,7 @@ class Conductor(Module):
         del self._conductor[args]
         j.j_move(name="CONDUCTOR", var=self._conductor)
         self.set_box(list(self._conductor))
+        self.aura_says = f"Link {args} has been deleted"
 
 
 
@@ -55,3 +56,10 @@ class Conductor(Module):
 
         else:
             self.aura_says = "This link not found"
+
+
+
+    def open_item(self, message):
+        if message.args[1] in self._true_box:
+            self._choice(message.args[1])
+            return True

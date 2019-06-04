@@ -6,3 +6,4 @@ j = JC()
 
 class Phrases():
     def __init__(self):
+        pass # скоро.

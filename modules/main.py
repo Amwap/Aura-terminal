@@ -11,7 +11,7 @@ j = JC()
 class Main(Module):
     def __init__(self):
         Module.__init__(self)
-        self.module_base = None
+        
         self.module_name = "Module: Main"
         self.box_name    = "In box: Commands"
         self.box_content = "Not found"
@@ -32,8 +32,8 @@ class Main(Module):
             "game":"game - pseudographic games", # other module
             "open":"open <name item in aura scope>",
             "play":"play <selekt name>",
-            "voice on":"voice on - connect voice input", # other module
-            "voice off":"voice off - turn off voice input", # other module
+            "assistant":"assistant - voice assistant", # other module
+            #"voice off":"voice off - turn off voice input", # other module
             "view":"view - program statistics",
             "manual":"manual - open full manual about program",
             "theme":"theme - switch theme",
@@ -53,15 +53,14 @@ class Main(Module):
 Commands:
 6 open
 7 play
-8 voice on
-9 voice off
+8 assistant
 
 Information:
-10  View
-11  Manual
+9  View
+10  Manual
 
 Configuration:
-12  Theme
+11  Theme
 
 """
 
@@ -74,8 +73,20 @@ Configuration:
         if message.command == "manual": self._open_manual()
         elif message.command == "theme": self._set_theme(message)
         elif message.command == "view": self._load_view()
-        elif message.command == "open": pass
+        elif message.command == "open": self._open_item(message)
         else: self.aura_says, _ = self.module_base["aura"]._search_answer(message.string)
+
+
+
+    def _open_item(self, message):
+        for module in self.module_base:
+            if module == "main": continue
+            if self.module_base[module].open_item(message) == True: 
+                self.aura_says = f"{message.args[1]} open through the module {module}"
+                break
+            else:
+                self.aura_says = "Nothing not found"
+
 
 
 
